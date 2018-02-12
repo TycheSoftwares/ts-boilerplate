@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 7.7
  */
+
 class TS_Welcome {
 
 	/**
@@ -32,35 +33,23 @@ class TS_Welcome {
 	public $plugin_name = "Order Delivery Date Pro for WooCommerce";
 
 	/**
-	* @var string Prefix of the plugin
-	* @access public 
-	*/
+	 * @var string Unique prefix of the plugin
+	 * @access public 
+	 */
 
 	public $plugin_prefix = 'orddd';
 
 	/**
-	* @var Plugin Context
-	* @access public
-	**/
+	 * @var Plugin Context
+	 * @access public
+	 */
 
 	public $plugin_context = 'order-delivery-date';
 
 	/**
-	 * @var string The current version of the plugin
+	 * @var string Folder of the plugin
 	 * @access public
 	 */
-	public $plugin_version = ORDDD_PRO_VERSION;
-
-	/**
-	 * @var string The url of the plugin
-	 * @access public
-	 */
-	public $plugin_url = ORDDD_PRO_PLUGIN_URL;
-
-	/**
-	* @var string Folder of the plugin
-	* @access public
-	*/
 	public $plugin_folder = 'order-delivery-date/';
 
 	/**
@@ -69,6 +58,9 @@ class TS_Welcome {
 	 * @since 7.7
 	 */
 	public function __construct() {
+		//Update plugin
+		add_action( 'admin_init', array( &$this, 'ts_update_db_check' ) );
+
 		add_action( 'admin_menu', array( $this, 'admin_menus' ) );
 		add_action( 'admin_head', array( $this, 'admin_head' ) );
 
@@ -77,10 +69,52 @@ class TS_Welcome {
 			add_action( 'admin_init', array( $this, $this->plugin_prefix . '_pro_welcome' ) );
 		}
 
-		$this->template_html    = 'welcome/welcome-page.php';
-		$this->template_plain   = 'welcome/plain/welcome-page.php';
-		$this->template_base    = ORDDD_TEMPLATE_PATH;
+		$this->plugin_version = $this->ts_get_version();
+		$this->previous_plugin_version = get_option( 'orddd_db_version' );
+		$this->plugin_url     = $this->ts_get_plugin_url();
+		$this->template_base  = $this->ts_get_template_path();
 	}
+
+	/**
+     * This function returns the plugin version number.
+     *
+     * @access public 
+     * @since 7.7
+     * @return $plugin_version
+     */
+    public function ts_get_version() {
+        $plugin_version = '';
+        $plugin_dir =  dirname ( dirname (__FILE__) );
+        $plugin_dir .= '/order-delivery-date/order_delivery_date.php';
+        
+        $plugin_data = get_file_data( $plugin_dir, array( 'Version' => 'Version' ) );
+        if ( ! empty( $plugin_data['Version'] ) ) {
+            $plugin_version = $plugin_data[ 'Version' ];
+        }
+        return $plugin_version;
+    }
+
+    /**
+     * This function returns the plugin url 
+     *
+     * @access public 
+     * @since 7.7
+     * @return string
+     */
+    public function ts_get_plugin_url() {
+        return plugins_url() . '/order-delivery-date/';
+    }
+
+    /**
+    * This function returns the template directory path
+    *
+    * @access public 
+    * @since 7.7
+    * @return string
+    */
+    public function ts_get_template_path() {
+    	return untrailingslashit( plugin_dir_path( __FILE__ ) ) . '/templates/';
+    } 
 
 	/**
 	 * Register the Dashboard Page which is later hidden but this pages
@@ -127,9 +161,8 @@ class TS_Welcome {
 		// Badge for welcome page
 		$badge_url = $this->plugin_url . 'images/icon-256x256.png';		
 		
-		//echo $this->template_base;exit;	
 		ob_start();
-        wc_get_template( $this->template_html, array(
+        wc_get_template( 'welcome/welcome-page.php', array(
         	'plugin_name'     => $this->plugin_name,
         	'plugin_url'      => $this->plugin_url, 
             'display_version' => $display_version,
@@ -146,51 +179,25 @@ class TS_Welcome {
 	/**
 	 * The header section for the welcome screen.
 	 *
-	 * @since 3.3
+	 * @since 7.7
 	 */
 	public function get_welcome_header() {
 		// Badge for welcome page
 		$badge_url = $this->plugin_url . 'images/icon-256x256.png';
 		?>
         <h1 class="welcome-h1"><?php echo get_admin_page_title(); ?></h1>
-		<?php $this->social_media_elements(); ?>
-
-	<?php }
+		<?php $this->social_media_elements();
+	}
 
 	/**
 	 * Social Media Like Buttons
 	 *
 	 * Various social media elements to Tyche Softwares
 	 */
-	public function social_media_elements() { ?>
-
-        <div class="social-items-wrap">
-
-            <iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Ftychesoftwares&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=false&amp;font&amp;colorscheme=light&amp;action=like&amp;height=21&amp;appId=220596284639969"
-                    scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;"
-                    allowTransparency="true"></iframe>
-
-            <a href="https://twitter.com/tychesoftwares" class="twitter-follow-button" data-show-count="false"><?php
-				printf(
-					esc_html_e( 'Follow %s', 'tychesoftwares' ),
-					'@tychesoftwares'
-				);
-				?></a>
-            <script>!function (d, s, id) {
-                    var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
-                    if (!d.getElementById(id)) {
-                        js = d.createElement(s);
-                        js.id = id;
-                        js.src = p + '://platform.twitter.com/widgets.js';
-                        fjs.parentNode.insertBefore(js, fjs);
-                    }
-                }(document, 'script', 'twitter-wjs');
-            </script>
-
-        </div>
-        <!--/.social-items-wrap -->
-
-		<?php
+	public function social_media_elements() { 
+		ob_start();
+        wc_get_template( 'welcome/social-media-elements.php', array(), $this->plugin_folder, $this->template_base );
+        echo ob_get_clean();
 	}
 
 
@@ -199,7 +206,7 @@ class TS_Welcome {
 	 * time the plugin is updated is upgraded to a new version
 	 *
 	 * @access public
-	 * @since  3.3
+	 * @since  7.7
 	 *
 	 * @return void
 	 */
@@ -213,6 +220,19 @@ class TS_Welcome {
 		if( !get_option( $this->plugin_prefix . '_pro_welcome_page_shown' ) ) {
 			wp_safe_redirect( admin_url( 'index.php?page=' . $this->plugin_prefix . '-pro-about' ) );
 			exit;
+		}
+	}
+
+	
+
+
+	/**
+	 *  Executed when the plugin is updated using the Automatic Updater. 
+	 */
+	public function ts_update_db_check() {
+		if ( $this->plugin_version != $this->previous_plugin_version ) {
+			delete_option( $plugin_prefix . '_pro_welcome_page_shown' );
+			delete_option( $plugin_prefix . '_pro_welcome_page_shown_time' );
 		}
 	}
 }

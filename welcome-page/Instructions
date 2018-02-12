@@ -1,0 +1,22 @@
+Welcome page feature allows you to add an introduction page when a plugin is installed and active for the first time or when it is updated. 
+
+To add this feature to the plugin, you can follow the below steps:
+
+1. Copy the ts-welcome.php file into your plugin folder. 
+
+2. Copy the files in the template folder to template in the plugin.
+
+3. Include the file once when on the admin page. This can be done with is_admin() function. 
+
+4. Change the value of the $plugin_name, $plugin_prefix, $plugin_context, $plugin_folder variables of the TS_Welcome class with the values of your plugin.
+
+5. Change the plugin folder name and main file in the ts_get_version and ts_get_plugin_url function.
+
+6. Once done. You can replace the content of the template files as per your plugin requirements. Add the necessary images and files in your plugin folder as per the description. 
+
+7. Add the below code in the uninstall.php file of the plugin.
+
+delete_option( 'orddd_pro_welcome_page_shown' );
+delete_option( 'orddd_pro_welcome_page_shown_time' );
+
+Here 'orddd' will be replaced with the unique prefix of the plugin.
