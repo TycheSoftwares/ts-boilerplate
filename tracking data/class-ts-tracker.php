@@ -18,6 +18,7 @@ class TS_Tracker {
 	 * URL to the  Tracker API endpoint.
 	 * @var string
 	 */
+
 	private static $api_url = 'http://tracking.tychesoftwares.com/v1/';
 
 	/**
@@ -33,7 +34,6 @@ class TS_Tracker {
 	*/
 
 	public $plugin_name = 'Order Delivery Date Pro for WooCommerce';
-
 
 	/**
 	 * Hook into cron event.
@@ -134,6 +134,11 @@ class TS_Tracker {
 		return apply_filters( 'ts_tracker_data', $data );
 	}
     
+    /** 
+    * Send the data when the user has opted out
+    * @param array @params
+    * @return array
+    */
 	public static function ts_get_data_for_opt_out( $params ) {
 	    $plugin_data[ 'ts_meta_data_table_name']   = 'ts_tracking_meta_data';
 	    $plugin_data[ 'ts_plugin_name' ]		   = $this->plugin_name;
@@ -145,6 +150,11 @@ class TS_Tracker {
 	    return $params;
 	}
 	
+	/** 
+    * Send the plugin data when the user has opted in
+    * @param array @data
+    * @return array
+    */
     public static function ts_add_plugin_tracking_data( $data ) {
     	if ( isset( $_GET[ $this->plugin_prefix . '_tracker_optin' ] ) && isset( $_GET[ $this->plugin_prefix . '_tracker_nonce' ] ) && wp_verify_nonce( $_GET[ $this->plugin_prefix . '_tracker_nonce' ], $this->plugin_prefix . '_tracker_optin' ) ) {
 
@@ -164,6 +174,7 @@ class TS_Tracker {
 	    }
         return $data;
     }
+
 	/**
 	 * Get WordPress related data.
 	 * @return array
@@ -333,14 +344,26 @@ class TS_Tracker {
 		 ); 
 	}
 
+	/**
+	* Sends current WooCommerce version
+	* @return string
+	*/
 	private static function ts_get_wc_plugin_version() {
 		return WC()->version;
 	}
 
+	/**
+	* Sends the license data of the plugin
+	* @return array
+	*/
 	private static function ts_get_plugin_license_key() {
 		return array( 'license_key' => get_option( 'edd_sample_license_key_odd_woo' ), 'active_status' => get_option( 'edd_sample_license_status_odd_woo' ) );
 	}
 
+	/**
+	* Sends the current plugin version
+	* @return string
+	*/
 	private static function ts_get_plugin_version() {
 		global $orddd_version;
 		return $orddd_version;

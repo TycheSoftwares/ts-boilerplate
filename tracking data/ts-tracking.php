@@ -14,12 +14,6 @@ class TS_tracking {
 
 	public $plugin_prefix = 'orddd';
 
-	/**
-	* @var string Plugin's URL
-	* @access public
-	*/
-	public $plugin_url = ORDDD_PRO_PLUGIN_URL ;
-
 	/** 
 	* @var string Plugin Name
 	* @access public
@@ -50,8 +44,16 @@ class TS_tracking {
 		add_action( 'admin_notices', array( &$this, 'ts_track_usage_data' ) );
 		add_action( 'admin_footer',  array( __CLASS__, 'ts_admin_notices_scripts' ) );
 		add_action( 'wp_ajax_orddd_admin_notices', array( __CLASS__, 'ts_admin_notices' ) );
+
+		$this->plugin_url = plugins_url() . '/order-delivery-date/';
 	}
 
+	/**
+	* Load the js file in the admin
+	*
+	* @since 6.8
+	* @access public
+	*/
 	public static function ts_admin_notices_scripts() {
         wp_enqueue_script(
             'dismiss-notice.js',
@@ -62,6 +64,13 @@ class TS_tracking {
         );
     }
 
+    /**
+	* Called when the dismiss icon is clicked on the notice. 
+	*
+	* @since 6.8
+	* @access public
+	*/
+
     public static function ts_admin_notices() {
         update_option( $this->plugin_prefix . '_allow_tracking', 'dismissed' );
         TS_Tracker::ts_send_tracking_data( false );
@@ -69,8 +78,12 @@ class TS_tracking {
     }
 
 	/**
-	 * Actions on the final step.
+	 * Send the data tracking data to the server.
+	 * 
+	 * @access public
+	 * @since 6.8
 	 */
+
 	private function ts_tracking_actions() {
 		if ( isset( $_GET[ $this->plugin_prefix . '_tracker_optin' ] ) && isset( $_GET[ $this->plugin_prefix . '_tracker_nonce' ] ) && wp_verify_nonce( $_GET[ $this->plugin_prefix . '_tracker_nonce' ], $this->plugin_prefix . '_tracker_optin' ) ) {
 			update_option( $this->plugin_prefix . '_allow_tracking', 'yes' );
@@ -84,8 +97,12 @@ class TS_tracking {
 	}
 
 	/**
-	* Data Usage tracking notice
+	* Adds a data usage tracking notice in the admin
+	* 
+	* @access public
+	* @since 6.8
 	*/
+	
 	function ts_track_usage_data() {
 		$admin_url = get_admin_url();
 		echo '<input type="hidden" id="admin_url" value="' . $admin_url . '"/>';
