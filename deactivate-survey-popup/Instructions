@@ -1,0 +1,23 @@
+Add a popup with some questions when the plugin is deactivated. 
+
+To add this feature to the plugin, you can follow the below steps:
+
+1. Copy the ts-deactivation-survey.php and class-ts-deactivation.php files.
+
+2. Include the file class-ts-deactivation.php once when on the admin page. This can be done with is_admin() function. 
+
+3. Change the value of the $plugin_name variable of the TS_deactivate class with the name of your plugin.
+
+4. Change the plugin folder name in the $this->plugins_url variable in default constructor of TS_tracking class.
+
+5. Modify the $ts_plugin_specific_questions variable with the plugin specific questions.
+
+6. Accordingly, change the input types of the questions in the deactivate_options function. 
+
+Once the above changes are done. Data will be stored in the tychesod_tracking database in the staging cpanel.
+
+- The ts_tracking_data table will store the unique tracking id, site URL and admin email address. 
+
+- The ts_deactivation_survery table will store the meta for the reason for deactivating the plugin. Here tracking_id will be same as tracking id in ts_tracking_data.
+
+- The ts_tracking_plugins table will store the plugin name from which the action is performed. Here tracking_id will be same as tracking id in ts_tracking_data.
