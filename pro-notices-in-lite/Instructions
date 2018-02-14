@@ -1,0 +1,13 @@
+Add some notices of Pro plugins in the lite plugins. 
+
+To add this feature to the plugin, you can follow the below steps:
+
+1. Copy the ts-pro-notices.php file into your plugin folder.
+
+2. Include the file once when on the admin page. This can be done with is_admin() function. 
+
+3. Change the value of the $plugin_name, $plugin_prefix and $pro_plugin_prefix variable of the ts_pro_notices class with the name of your plugin.
+
+4. Change the notices to be shown in the ts_notices_of_pro   function. 
+
+5. Existing file does have notices based on the Order Delivery Date Pro plugin. Modify the conditions and notices according to the plugin requirements. 
