@@ -26,19 +26,19 @@ class TS_Tracker {
 	* @access public 
 	*/
 
-	public $plugin_prefix = 'orddd';
+	public static $plugin_prefix = 'orddd';
 
 	/**
 	* @var string Plugin name
 	* @access public 
 	*/
 
-	public $plugin_name = 'Order Delivery Date Pro for WooCommerce';
+	public static $plugin_name = 'Order Delivery Date Pro for WooCommerce';
 
 	/**
 	 * Hook into cron event.
 	 */
-	public static function init() {
+	public function __construct() {
 		add_action( 'ts_tracker_send_event',   array( __CLASS__, 'ts_send_tracking_data' ) );
 		add_filter( 'ts_tracker_data',         array( __CLASS__, 'ts_add_plugin_tracking_data' ), 10, 1 );
 		add_filter( 'ts_tracker_opt_out_data', array( __CLASS__, 'ts_get_data_for_opt_out' ), 10, 1 );
@@ -64,7 +64,7 @@ class TS_Tracker {
 			}
 		}
         
-		$allow_tracking =  get_option(  $this->plugin_prefix . '_allow_tracking' );
+		$allow_tracking =  get_option( self::$plugin_prefix . '_allow_tracking' );
 		if ( 'yes' == $allow_tracking ) {
 		    $override = true;
 		}
@@ -141,7 +141,7 @@ class TS_Tracker {
     */
 	public static function ts_get_data_for_opt_out( $params ) {
 	    $plugin_data[ 'ts_meta_data_table_name']   = 'ts_tracking_meta_data';
-	    $plugin_data[ 'ts_plugin_name' ]		   = $this->plugin_name;
+	    $plugin_data[ 'ts_plugin_name' ]		   = self::$plugin_name;
 	    
 	    // Store count info
 	    $plugin_data[ 'deliveries_count' ]         = self::ts_get_order_counts();
@@ -156,11 +156,11 @@ class TS_Tracker {
     * @return array
     */
     public static function ts_add_plugin_tracking_data( $data ) {
-    	if ( isset( $_GET[ $this->plugin_prefix . '_tracker_optin' ] ) && isset( $_GET[ $this->plugin_prefix . '_tracker_nonce' ] ) && wp_verify_nonce( $_GET[ $this->plugin_prefix . '_tracker_nonce' ], $this->plugin_prefix . '_tracker_optin' ) ) {
+    	if ( isset( $_GET[ self::$plugin_prefix . '_tracker_optin' ] ) && isset( $_GET[ self::$plugin_prefix . '_tracker_nonce' ] ) && wp_verify_nonce( $_GET[ self::$plugin_prefix . '_tracker_nonce' ], self::$plugin_prefix . '_tracker_optin' ) ) {
 
 	        $plugin_data  = array();
 	        $plugin_data[ 'ts_meta_data_table_name' ] = 'ts_tracking_meta_data';
-	        $plugin_data[ 'ts_plugin_name' ]		  = $this->plugin_name;
+	        $plugin_data[ 'ts_plugin_name' ]		  = self::$plugin_name;
 	        
 	        // Store count info
 	        $plugin_data[ 'deliveries_count' ]        = self::ts_get_order_counts();
@@ -169,7 +169,7 @@ class TS_Tracker {
 	        $plugin_data[ 'deliveries_settings' ]     = self::ts_get_all_plugin_options_values();
 	        $plugin_data[ 'orddd_plugin_version' ]    = self::ts_get_plugin_version();
 	        $plugin_data[ 'license_key_info' ]        = self::ts_get_plugin_license_key();
-	        $plugin_data[ $this->plugin_prefix . '_allow_tracking' ]    = get_option ( $this->plugin_prefix . '_allow_tracking' );
+	        $plugin_data[ self::$plugin_prefix . '_allow_tracking' ]    = get_option ( self::$plugin_prefix . '_allow_tracking' );
 	        $data[ 'plugin_data' ]                    = $plugin_data;
 	    }
         return $data;
@@ -370,4 +370,4 @@ class TS_Tracker {
 	}
 }
 
-TS_Tracker::init();
+$TS_Tracker = new TS_Tracker();
