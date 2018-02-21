@@ -2,13 +2,13 @@ Add a popup with some questions when the plugin is deactivated.
 
 To add this feature to the plugin, you can follow the below steps:
 
-1. Copy the ts-deactivation-survey.php and class-ts-deactivation.php files.
+1. Copy the class-ts-deactivation.php file.
 
 2. Include the file class-ts-deactivation.php once when on the admin page. This can be done with is_admin() function. 
 
 3. Change the value of the $plugin_name variable of the TS_deactivate class with the name of your plugin.
 
-4. Change the plugin folder name in the $this->plugins_url variable in default constructor of TS_tracking class.
+4. Change the plugin folder name in the $this->plugins_url variable in default constructor of TS_deactivate class.
 
 5. Modify the $ts_plugin_specific_questions variable with the plugin specific questions.
 
