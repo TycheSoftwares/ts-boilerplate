@@ -6,8 +6,11 @@ To add this feature to the plugin, you can follow the below steps:
 
 2. Include the file once when on the admin page. This can be done with is_admin() function. 
 
-3. Change the value of the $plugin_name, $plugin_license_option variables of the TS_Welcome class with the values of your plugin.
+3. You need to pass the 4 parameters to the class constructor.
 
-4. Change the plugin folder name and main file in the ts_get_version and ts_get_plugin_url function.
-
-5. Once done. A notice will be displayed informing customers that the license key is deactivated.
+4. Once you have included the file please pass the following parameter as per your plugin settings.
+    $wcap_plugin_name        = 'Abandoned Cart Pro for WooCommerce';
+    $wcap_edd_license_option = 'edd_sample_license_status_ac_woo';
+    $wcap_license_path       = 'admin.php?page=woocommerce_ac_page&action=emailsettings';
+    $wcap_locale             = 'woocommerce-ac';
+    new active_license_notice( $wcap_plugin_name, $wcap_edd_license_option, $wcap_license_path, $wcap_locale );
