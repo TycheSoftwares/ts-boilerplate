@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 /**
  * Active License Notice class
  *
@@ -92,3 +95,4 @@ class active_license_notice {
 	    printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
 	}
 }
+
