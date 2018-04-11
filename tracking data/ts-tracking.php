@@ -109,7 +109,7 @@ class TS_tracking {
 	 * 
 	 */
 
-	private function ts_tracking_actions() {
+	private static function ts_tracking_actions() {
 		if ( isset( $_GET[ self::$plugin_prefix . '_tracker_optin' ] ) && isset( $_GET[ self::$plugin_prefix . '_tracker_nonce' ] ) && wp_verify_nonce( $_GET[ self::$plugin_prefix . '_tracker_nonce' ], self::$plugin_prefix . '_tracker_optin' ) ) {
 			update_option( self::$plugin_prefix . '_allow_tracking', 'yes' );
 			TS_Tracker::ts_send_tracking_data( true );
@@ -128,7 +128,7 @@ class TS_tracking {
 	 * @since 6.8
 	 */
 	
-	function ts_track_usage_data() {
+	public static function ts_track_usage_data() {
 		$admin_url = get_admin_url();
 		echo '<input type="hidden" id="admin_url" value="' . $admin_url . '"/>';
 		self::ts_tracking_actions();
