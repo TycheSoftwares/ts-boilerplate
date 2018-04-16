@@ -11,16 +11,24 @@ $plugin_customized_reasons = array();
 $incr                      = 0;
 
 foreach ( $reasons as $reason ) {
-	$list_item_classes       = 'reason' . ( ! empty( $reason['input_type'] ) ? ' has-input' : '' ) . ( ( isset( $reason[ 'html' ] ) && ( ! empty( $reason[ 'html' ] ) ) ) ? ' has_html' : '' );
+	$list_item_classes           = 'reason' . ( ! empty( $reason['input_type'] ) ? ' has-input' : '' ) . ( ( isset( $reason[ 'html' ] ) && ( ! empty( $reason[ 'html' ] ) ) ) ? ' has_html' : '' );
 	
-    $reason_html             = ( isset( $reason['html'] ) && ( ! empty( $reason['html'] ) ) ) ? '<div class="reason_html">' . $reason['html'] . '</div>' : '';
+    $reason_html                 = ( isset( $reason['html'] ) && ( ! empty( $reason['html'] ) ) ) ? '<div class="reason_html">' . $reason['html'] . '</div>' : '';
 
+    $ts_reason_input_type        = ( isset( $reason['input_type'] ) && ( ! empty( $reason['input_type'] ) ) ) ?  $reason['input_type']  : '';
+
+    $ts_reason_input_placeholder = ( isset( $reason['input_placeholder'] ) && ( ! empty( $reason['input_placeholder'] ) ) ) ?  $reason['input_placeholder']  : '';
+
+    $ts_reason_id                = ( isset( $reason['id'] ) && ( ! empty( $reason['id'] ) ) ) ?  $reason['id'] : '';
+
+    $ts_reason_text              = ( isset( $reason['text'] ) && ( ! empty( $reason['text'] ) ) ) ?  $reason['text']  : '';
+    
     $selected = "";
     if ( $incr == 0 ) { 
         $selected = "checked";
     }
 
-	$reasons_list_items_html .= '<li class="' . $list_item_classes . '" data-input-type="' . $reason['input_type'] . '" data-input-placeholder="' . $reason['input_placeholder'] . '"><label><span><input type="radio" name="selected-reason" value="' . $reason['id'] . '" ' . $selected . '/></span><span>' . $reason['text'] . '</span></label>' . $reason_html . '</li>';
+	$reasons_list_items_html .= '<li class="' . $list_item_classes . '" data-input-type="' . $ts_reason_input_type . '" data-input-placeholder="' . $ts_reason_input_placeholder . '"><label><span><input type="radio" name="selected-reason" value="' . $ts_reason_id . '" ' . $selected . '/></span><span>' . $ts_reason_text . '</span></label>' . $reason_html . '</li>';
 	$incr ++;
 }
  
