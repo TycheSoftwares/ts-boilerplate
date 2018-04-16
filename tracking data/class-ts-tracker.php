@@ -1,16 +1,17 @@
 <?php
+
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * The tracker class adds functionality to track usage of the plugin based on if the customer opted in.
  * No personal information is tracked, only general settings, order and user counts and admin email for 
  * discount code.
  *
  * @class 		TS_Tracker
- * @version		6.8
  */
-
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
 
 class TS_Tracker {
 
@@ -44,7 +45,6 @@ class TS_Tracker {
 		self::$plugin_name   = $ts_plugin_name;
 
 		add_action( 'ts_tracker_send_event',   array( __CLASS__, 'ts_send_tracking_data' ) );
-		
 	}
 
 	/**
@@ -109,7 +109,7 @@ class TS_Tracker {
 
 	/**
 	 * Get all the tracking data.
-	 * @return array
+	 * @return array $data
 	 */
 	private static function ts_get_tracking_data() {
 		$data                        = array();
@@ -120,7 +120,6 @@ class TS_Tracker {
 
 		// WordPress Info
 		$data[ 'wp' ]                = self::ts_get_wordpress_info();
-
 		$data[ 'theme_info' ]        = self::ts_get_theme_info();
 
 		// Server Info
@@ -137,10 +136,9 @@ class TS_Tracker {
 		return apply_filters( 'ts_tracker_data', $data );
 	}
     
-
 	/**
 	 * Get WordPress related data.
-	 * @return array
+	 * @return array $wp_data
 	 */
 	private static function ts_get_wordpress_info() {
 		$wp_data = array();
@@ -176,9 +174,10 @@ class TS_Tracker {
 
 	/**
 	 * Get server related info.
-	 * @return array
+	 * @return array $server_data
 	 */
 	private static function ts_get_server_info() {
+		global $wpdb;
 		$server_data = array();
 
 		if ( isset( $_SERVER[ 'SERVER_SOFTWARE' ] ) && ! empty( $_SERVER[ 'SERVER_SOFTWARE' ] ) ) {
@@ -196,7 +195,6 @@ class TS_Tracker {
 			$server_data[ 'php_suhosin' ] = extension_loaded( 'suhosin' ) ? 'Yes' : 'No';
 		}
 
-		global $wpdb;
 		$server_data[ 'mysql_version' ] = $wpdb->db_version();
 
 		$server_data[ 'php_max_upload_size' ] = size_format( wp_max_upload_size() );
@@ -252,7 +250,7 @@ class TS_Tracker {
 	
 	/**
 	 * Sends current WooCommerce version
-	 * @return string
+	 * @return string Plugin Version
 	 */
 	private static function ts_get_wc_plugin_version() {
 		return WC()->version;

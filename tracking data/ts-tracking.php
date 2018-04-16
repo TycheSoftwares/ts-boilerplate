@@ -52,7 +52,6 @@ class TS_tracking {
 	public static $ts_file_path = '' ;
 	/** Default Constructor 
 	 *
-	 * @since 6.8
 	 */
 	public function __construct( $ts_plugin_prefix = '', $ts_plugin_name = '', $ts_blog_post_link = '', $ts_plugin_context = '', $ts_plugin_url = '' ) {
 
@@ -69,8 +68,6 @@ class TS_tracking {
 
 	/**
 	 * Load the js file in the admin
-	 *
-	 * @since 6.8
 	 * @access public
 	 */
 	public static function ts_admin_notices_scripts() {
@@ -91,12 +88,9 @@ class TS_tracking {
 
     /**
 	 * Called when the dismiss icon is clicked on the notice. 
-	 *
-	 * @since 6.8
 	 * @access public
 	 */
-
-    public static function ts_admin_notices() {
+	public static function ts_admin_notices() {
         update_option( self::$plugin_prefix . '_allow_tracking', 'dismissed' );
         TS_Tracker::ts_send_tracking_data( false );
         die();
@@ -108,7 +102,6 @@ class TS_tracking {
 	 * @access public
 	 * 
 	 */
-
 	private static function ts_tracking_actions() {
 		if ( isset( $_GET[ self::$plugin_prefix . '_tracker_optin' ] ) && isset( $_GET[ self::$plugin_prefix . '_tracker_nonce' ] ) && wp_verify_nonce( $_GET[ self::$plugin_prefix . '_tracker_nonce' ], self::$plugin_prefix . '_tracker_optin' ) ) {
 			update_option( self::$plugin_prefix . '_allow_tracking', 'yes' );
@@ -125,9 +118,8 @@ class TS_tracking {
 	 * Adds a data usage tracking notice in the admin
 	 * 
 	 * @access public
-	 * @since 6.8
+	 * 
 	 */
-	
 	public static function ts_track_usage_data() {
 		$admin_url = get_admin_url();
 		echo '<input type="hidden" id="admin_url" value="' . $admin_url . '"/>';

@@ -20,11 +20,11 @@ jQuery(document).ready( function() {
 		 * Event when close icon is clicked.
 		 * @fires event:notice-dismiss
 		 * @since 6.8
-		*/
+		 */
 		$button.on( 'click.notice-dismiss', function( event ) {
 			event.preventDefault();
 			$this.fadeTo( 100 , 0, function() {
-				//alert();
+				
 				jQuery(this).slideUp( 100, function() {
 					jQuery(this).remove();
 					var data = {
