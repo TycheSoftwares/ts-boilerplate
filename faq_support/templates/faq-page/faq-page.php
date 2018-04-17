@@ -17,12 +17,9 @@
         transition: 0.4s;
         margin-bottom: 5px;
     }
-
     .active, .faq-ts-accordion:hover {
         background-color: #ccc; 
     }
-
-
     .faq-ts-accordion:after {
         content: '\002B';
         color: #777;
@@ -30,34 +27,27 @@
         float: right;
         margin-left: 5px;
     }
-
     .active:after {
         content: "\2212";
     }
-
     .panel {
         padding: 0 18px;
         display: none;
         background-color: light-grey;
         overflow: hidden;
     }
-
     .main-panel {
         width: 650px !important;
     }
-
     .support-panel {
         padding: 5px;
     }
-
     .dashicons-external {
         content: "\f504";
     }
-
     .dashicons-editor-help {
         content: "\f223";
     }
-
     div.panel.show {
         display: block !important;
     }
@@ -65,7 +55,7 @@
 </style>
 
 <div class="main-panel">
-    <h3>Frequently Asked Questions for Order Delivery Date Pro for WooCommerce Plugin</h3>
+    <h3>Frequently Asked Questions for <?php echo $ts_plugin_name; ?> Plugin</h3>
     <button class="faq-ts-accordion"><span class="dashicons dashicons-editor-help"></span><strong>I need some lead preparation time before I can make a delivery. Can I set a minimum delivery period on my WooCommerce store?</strong></button>
     <div class="panel">
         <p>Yes, you can set a minimum delivery period in hours, which will be taken into consideration before showing the earliest available delivery date or time slot to your customers. This can be done under the <strong>“Minimum Delivery time (in hours)”</strong> field under the General Settings -> Date Settings tab in the Order Delivery Date on the admin side. Minutes will be accepted in the decimal format like for 30 Minutes you can use 0.50. <a href="https://www.tychesoftwares.com/setup-shipping-days/" target="_blank" class="dashicons dashicons-external"></a></p>
@@ -114,10 +104,7 @@
 
 <div class="support-panel">
     <p style="font-size: 19px">
-        If your queries are not answered here, you can contact our support team by posting an issue on our <a href="https://www.tychesoftwares.com/forums/forum/order-delivery-date-pro-for-woocommerce/" target="_blank">support forum</a>.
-    </p>
-    <p style="font-size: 19px">
-        Or you can also send an email directly to <strong>support@tychesoftwares.com</strong> for some additional requirements. 
+        If your queries are not answered here, you can send an email directly to <strong>support@tychesoftwares.freshdesk.com</strong> for some additional requirements. 
     </p>
 </div>
 <script>

@@ -6,12 +6,28 @@ To add this feature to the plugin, you can follow the below steps:
 
 2. Include the ts-faq-support.php file once when on the admin page. This can be done with is_admin() function. 
 
-3. Change the value of the $plugin_name, $plugin_folder, $plugin_url, $template_base variables of the ts_pro_notices class with the values of your plugin.
+3. You need to pass the 6 parameters to the default constructor of the TS_Welcome class. You need to change the value of the variable value as per the respective plugin.
 
-4. Replace the 'orddd_add_submenu' hook with the custom hook of your plugin. This needs to be done if you want to add a submenu in the main menu of your plugin. But if you want to add a tab, you need to comment this hook. 
+    $wcap_plugin_prefix      = 'wcap';
+    $wcap_plugin_name        = 'Abandoned Cart Pro for WooCommerce';
+    $wcap_blog_post_link     = 'https://www.tychesoftwares.com/order-delivery-date-usage-tracking/';
+    $wcap_locale             = 'woocommerce-ac';
+    $wcap_plugin_folder_name = 'woocommerce-abandon-cart-pro/';
+    $wcap_plugins_page       = 'admin.php?page=woocommerce_ac_page'; 
+    $wcap_plugin_slug        = 'woocommerce_ac_page';
 
-5. Replace the 'orddd_add_new_settings_tab' hook with the custom hook of your plugin. This will add a new tab along with other tabs in the settings menu. 
+    $TS_Faq_Support = new TS_Faq_Support( $wcap_plugin_name, $wcap_plugin_prefix, $wcap_plugins_page, $wcap_locale, $wcap_plugin_folder_name, $wcap_plugin_slug );
 
-6. Replace the 'orddd_add_tab_content' hook with the custom hook of your plugin. This will add the content to the tab.
+4. You need to create 3 do_action in your respective plugin. And it should follow below standard.
 
-5. Change the FAQ in the faq-page.php template files.
+1. {{plugin-prefix}}_add_tabs
+2. {{plugin-prefix}}_add_tab_content
+3. {{plugin-prefix}}_add_submenu
+
+5. {{plugin-prefix}}_add_tabs : This do_action will be placed after your plguins tab. It will allow to add new tab.
+
+6. {{plugin-prefix}}_add_tab_content : This do_action will be placed where you display the content of the tab.
+
+7. {{plugin-prefix}}_add_submenu : This do_action will be placed where you have screated sub menu of your plguin.
+
+8. You need to update all faq of the plugins.
