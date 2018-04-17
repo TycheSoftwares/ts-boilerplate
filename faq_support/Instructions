@@ -30,4 +30,4 @@ To add this feature to the plugin, you can follow the below steps:
 
 7. {{plugin-prefix}}_add_submenu : This do_action will be placed where you have screated sub menu of your plguin.
 
-8. You need to update all faq of the plugins.
+8. You need to update all faq of the plugins. You need to update this FAQ under the template folder.
