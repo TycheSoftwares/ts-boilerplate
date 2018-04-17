@@ -8,15 +8,30 @@ To add this feature to the plugin, you can follow the below steps:
 
 3. Include the file once when on the admin page. This can be done with is_admin() function. 
 
-4. Change the value of the $plugin_name, $plugin_prefix, $plugin_context, $plugin_folder variables of the TS_Welcome class with the values of your plugin.
+4. You need to pass the 6 parameters to the default constructor of the TS_Welcome class. You need to change the value of the variable value as per the respective plugin.
 
-5. Change the plugin folder name and main file in the ts_get_version and ts_get_plugin_url function.
+    $wcap_plugin_prefix      = 'wcap';
+    $wcap_plugin_name        = 'Abandoned Cart Pro for WooCommerce';
+    $wcap_blog_post_link     = 'https://www.tychesoftwares.com/order-delivery-date-usage-tracking/';
+    $wcap_locale             = 'woocommerce-ac';
+    define('WCAP_PLUGIN_PATH' , untrailingslashit(plugin_dir_path(__FILE__)) );
+    $wcap_plugin_folder_name = 'woocommerce-abandon-cart-pro/';
+    $wcap_plugin_dir_name    = WCAP_PLUGIN_PATH . '/woocommerce-ac.php' ;
+    $wcap_get_previous_version = get_option( 'woocommerce_ac_db_version' );
 
-6. Once done. You can replace the content of the template files as per your plugin requirements. Add the necessary images and files in your plugin folder as per the description. 
+    new TS_Welcome ( $wcap_plugin_name, $wcap_plugin_prefix, $wcap_locale, $wcap_plugin_folder_name, $wcap_plugin_dir_name, $wcap_get_previous_version );
 
-7. Add the below code in the uninstall.php file of the plugin.
+5. Add the below code in the uninstall.php file of the plugin.
 
-delete_option( 'orddd_pro_welcome_page_shown' );
-delete_option( 'orddd_pro_welcome_page_shown_time' );
+delete_option( '{{plugin-prefix}}_pro_welcome_page_shown' );
+delete_option( '{{plugin-prefix}}_pro_welcome_page_shown_time' );
 
-Here 'orddd' will be replaced with the unique prefix of the plugin.
+6. You need to update the Template as per your update of the plguin. You just need to update the template content.
+
+Note:
+
+1. Please put your all images in the images folder of this folder.
+2. You can use the $ts_dir_image_path for img src. Like <img src="<?php echo $ts_dir_image_path . 'custom-delivery-settings.png'?>"
+3. Please change the Utm parameters
+
+You just need to append the image name. 
