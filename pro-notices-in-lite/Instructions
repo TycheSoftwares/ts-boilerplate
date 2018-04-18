@@ -6,8 +6,12 @@ To add this feature to the plugin, you can follow the below steps:
 
 2. Include the file once when on the admin page. This can be done with is_admin() function. 
 
-3. Change the value of the $plugin_name, $plugin_prefix and $pro_plugin_prefix variable of the ts_pro_notices class with the name of your plugin.
+3. You need to pass the 3 parameters to the default constructor of the ts_pro_notices class. You need to change the value of the variable as per the respective plugin.
 
-4. Change the notices to be shown in the ts_notices_of_pro   function. 
+    $wcap_plugin_prefix      = 'wcap';
+    $wcap_plugin_name        = 'Abandoned Cart Pro for WooCommerce';
+    $wcap_lite_plugin_prefix = 'wcal';
 
-5. Existing file does have notices based on the Order Delivery Date Pro plugin. Modify the conditions and notices according to the plugin requirements. 
+    new ts_pro_notices( $wcap_plugin_name, $wcap_lite_plugin_prefix, $wcap_plugin_prefix );
+
+4. Then in the main file you need to update text for the notices. Also, you need to check if any condition needed with any specific plguin.
