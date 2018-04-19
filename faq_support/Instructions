@@ -23,7 +23,7 @@ Here , $ts_pro_faq is an array.
 
 The structure of the array is like below:
 
-$ts_faq = array(
+$ts_pro_faq = array(
                 1 => array (
                         'question' => '',
                         'answer'   => ''
