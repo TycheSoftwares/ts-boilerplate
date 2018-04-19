@@ -40,13 +40,13 @@ class TS_deactivate {
 	/**
 	 * Initialization of hooks where we prepare the functionality to ask use for survey
 	 */
-	public static function init( $ts_plugin_file_name = '', $ts_plugin_name = '', $ts_plugin_url = '' ) {
+	public static function init( $ts_plugin_file_name = '', $ts_plugin_name = '' ) {
 		self::$ts_plugin_file_name = $ts_plugin_file_name;
 		self::$plugin_name         = $ts_plugin_name;
-		self::$ts_plugin_url       = $ts_plugin_url;
+		self::$ts_plugin_url       = untrailingslashit( plugin_dir_path ( __FILE__ ) );
 		
 		self::ts_load_all_str();
-		add_action( 'admin_footer', array( __CLASS__, 'maybe_load_deactivate_options' ) );
+		add_action( 'admin_footer', 					  array( __CLASS__, 'maybe_load_deactivate_options' ) );
 		add_action( 'wp_ajax_ts_submit_uninstall_reason', array( __CLASS__, '_submit_uninstall_reason_action' ) );
 
 		add_filter( 'plugin_action_links_' . self::$ts_plugin_file_name, array( __CLASS__, 'ts_plugin_settings_link' ) );
@@ -100,7 +100,7 @@ class TS_deactivate {
 		if ( $pagenow == "plugins.php" ) {
 			global $VARS;
 			$VARS = array( 'slug' => "asvbsd", 'reasons' => self::deactivate_options() );
-			include_once self::$ts_plugin_url . "/ts-boilerplate/deactivate-survey-popup/template/ts-deactivate-modal.php";
+			include_once self::$ts_plugin_url . "/template/ts-deactivate-modal.php";
 		}
 	}
 
