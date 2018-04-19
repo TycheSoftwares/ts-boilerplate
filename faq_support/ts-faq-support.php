@@ -50,16 +50,23 @@ class TS_Faq_Support {
 	 * @access public
 	 */
 	public static $plugin_slug = '';
+
+	/**
+	 * @var array List of all questions and answers.
+	 * @access public
+	 */
+	public static $ts_faq = array ();
 	/**
 	 * Initialization of hooks where we prepare the functionality to ask use for survey
 	 */
-	public function __construct( $ts_plugin_mame = '', $ts_plugin_prefix = '', $ts_plugin_page = '', $ts_plugin_locale = '', $ts_plugin_folder_name = '', $ts_plugin_slug = '' ) {
+	public function __construct( $ts_plugin_mame = '', $ts_plugin_prefix = '', $ts_plugin_page = '', $ts_plugin_locale = '', $ts_plugin_folder_name = '', $ts_plugin_slug = '', $ts_faq_array = array() ) {
 		
 		self::$plugin_name   = $ts_plugin_mame;
 		self::$plugin_prefix = $ts_plugin_prefix;
 		self::$plugin_page   = $ts_plugin_page;
 		self::$plugin_locale = $ts_plugin_locale;
 		self::$plugin_slug   = $ts_plugin_slug;
+		self::$ts_faq        = $ts_faq_array;
 
 		//Add a sub menu in the main menu of the plugin if added.
 		add_action( self::$plugin_prefix . '_add_submenu', array( &$this, 'ts_add_submenu' ) );
@@ -124,7 +131,8 @@ class TS_Faq_Support {
 		ob_start();
 		wc_get_template( 'faq-page/faq-page.php', 	
 						 array(
-							 'ts_plugin_name' => self::$plugin_name
+								'ts_plugin_name' => self::$plugin_name,
+							  	'ts_faq'         => self::$ts_faq
 						 ), 
 						 self::$plugin_folder, 
 						 self::$template_base );

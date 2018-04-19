@@ -6,7 +6,7 @@ To add this feature to the plugin, you can follow the below steps:
 
 2. Include the ts-faq-support.php file once when on the admin page. This can be done with is_admin() function. 
 
-3. You need to pass the 6 parameters to the default constructor of the TS_Welcome class. You need to change the value of the variable value as per the respective plugin.
+3. You need to pass the 7 parameters to the default constructor of the TS_Welcome class. You need to change the value of the variable value as per the respective plugin.
 
     $wcap_plugin_prefix      = 'wcap';
     $wcap_plugin_name        = 'Abandoned Cart Pro for WooCommerce';
@@ -16,7 +16,21 @@ To add this feature to the plugin, you can follow the below steps:
     $wcap_plugins_page       = 'admin.php?page=woocommerce_ac_page'; 
     $wcap_plugin_slug        = 'woocommerce_ac_page';
 
-    $TS_Faq_Support = new TS_Faq_Support( $wcap_plugin_name, $wcap_plugin_prefix, $wcap_plugins_page, $wcap_locale, $wcap_plugin_folder_name, $wcap_plugin_slug );
+    $ts_pro_faq = self::wcap_get_faq ();
+    new TS_Faq_Support( $wcap_plugin_name, $wcap_plugin_prefix, $wcap_plugins_page, $wcap_locale, $wcap_plugin_folder_name, $wcap_plugin_slug, $ts_pro_faq );
+
+Here , $ts_pro_faq is an array.
+
+The structure of the array is like below:
+
+$ts_faq = array(
+                1 => array (
+                        'question' => '',
+                        'answer'   => ''
+                )
+            );
+
+Here Index start from 1. Do not change it. We need to display 10 Questions and answers, so you can add 10 questions and answers in the above format.
 
 4. You need to create 3 do_action in your respective plugin. And it should follow below standard.
 
@@ -30,4 +44,4 @@ To add this feature to the plugin, you can follow the below steps:
 
 7. {{plugin-prefix}}_add_submenu : This do_action will be placed where you have screated sub menu of your plguin.
 
-8. You need to update all faq of the plugins. You need to update this FAQ under the template folder.
+8. You need to update all faq of the plugins.
