@@ -50,7 +50,13 @@ class TS_tracking {
 	 * @access public
 	 */
 	public static $ts_file_path = '' ;
-	/** Default Constructor 
+	/**
+	 * @var string plugin locale
+	 * @access public
+	 */
+	public static $ts_plugin_locale = '';
+	/** 
+	 * Default Constructor 
 	 *
 	 */
 	public function __construct( $ts_plugin_prefix = '', $ts_plugin_name = '', $ts_blog_post_link = '', $ts_plugin_context = '', $ts_plugin_url = '' ) {
@@ -59,11 +65,41 @@ class TS_tracking {
 		self::$plugin_name    = $ts_plugin_name;
 		self::$blog_post_link = $ts_blog_post_link;
 		self::$plugin_url     = $ts_plugin_url;
+		self::$ts_plugin_locale = $ts_plugin_context;
 		self::$ts_file_path   = untrailingslashit( plugins_url( '/', __FILE__) ) ;
 		//Tracking Data
 		add_action( 'admin_notices', array( 'TS_tracking', 'ts_track_usage_data' ) );
 		add_action( 'admin_footer',  array( 'TS_tracking', 'ts_admin_notices_scripts' ) );
 		add_action( 'wp_ajax_'.self::$plugin_prefix.'_admin_notices', array( 'TS_tracking', 'ts_admin_notices' ) );
+
+		add_filter( 'cron_schedules', array( 'TS_tracking', 'ts_add_cron_schedule' ) );
+
+		self::ts_schedule_cron_job();
+	}
+
+	/**
+	 * It will add a cron job for sending the tarcking data.
+	 * By default it will set once in a week interval.
+	 * @hook cron_schedules	
+	 * @param array $schedules
+	 * @return array $schedules
+	 */
+	public static function ts_add_cron_schedule( $schedules ) {
+		$schedules[ 'once_in_week' ] = array(
+			'interval' => 604800,  // one week in seconds
+			'display'  => __( 'Once in a Week', self::$ts_plugin_locale )
+		);
+		
+		return $schedules;
+	}
+
+	/**
+	 * To capture the data from the client site.
+	 */
+	public static function ts_schedule_cron_job () {
+		if ( ! wp_next_scheduled( self::$plugin_prefix . '_ts_tracker_send_event' ) ) {
+			wp_schedule_event( time(), 'once_in_week', self::$plugin_prefix . '_ts_tracker_send_event' );
+		}
 	}
 
 	/**

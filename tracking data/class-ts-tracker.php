@@ -44,7 +44,7 @@ class TS_Tracker {
 		self::$plugin_prefix = $ts_plugin_prefix;
 		self::$plugin_name   = $ts_plugin_name;
 
-		add_action( 'ts_tracker_send_event',   array( __CLASS__, 'ts_send_tracking_data' ) );
+		add_action( self::$plugin_prefix . '_ts_tracker_send_event',   array( __CLASS__, 'ts_send_tracking_data' ) );
 	}
 
 	/**
