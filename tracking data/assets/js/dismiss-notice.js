@@ -30,7 +30,7 @@ jQuery(document).ready( function() {
 					var data = {
 						action: ts_dismiss_notice.ts_prefix_of_plugin + "_admin_notices"
 					};
-					var admin_url = ts_dismiss_notice.ts_prefix_of_plugin.ts_admin_url;
+					var admin_url = ts_dismiss_notice.ts_admin_url;
 					
 					jQuery.post( admin_url , data, function( response ) {
 					});
