@@ -137,6 +137,24 @@ class TS_Tracker {
 				
 		return apply_filters( 'ts_tracker_data', $data );
 	}
+
+	/**
+	 * Get Selected city of the WooCommerce store.
+	 * @return string $ts_city Name of the city
+	 */
+	private static function ts_get_wc_city () {
+		$ts_city = get_option ( 'woocommerce_store_city' ); 
+		return $ts_city;
+	}
+
+	/**
+	 * Get Selected country of the WooCommerce store.
+	 * @return string $ts_country Name of the city
+	 */
+	private static function ts_get_wc_country () {
+		$ts_country = get_option ( 'woocommerce_default_country' ); 
+		return $ts_country;
+	}
     
 	/**
 	 * Get WordPress related data.
@@ -159,7 +177,7 @@ class TS_Tracker {
 		$wp_data[ 'multisite' ]    = is_multisite() ? 'Yes' : 'No';
 
 		$wp_data[ 'blogdescription' ] = get_option ( 'blogdescription' );
-		$wp_data[ 'blogname' ] = get_option ( 'blogname' );
+		$wp_data[ 'blogname' ]        = get_option ( 'blogname' );
 
 		return $wp_data;
 	}
