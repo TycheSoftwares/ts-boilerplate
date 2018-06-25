@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * TS_Woo_Active Class
@@ -28,9 +31,6 @@ class TS_Woo_Active {
 	 */
 	public $ts_locale = '';
 
-	/**
-	 * Default constructor of the WooComerce active class.
-	 */
 	public function __construct( $ts_plugin_name = '' , $ts_file_name = '', $ts_locale = '' ) {
 
 		$this->plugin_name = $ts_plugin_name;
@@ -42,6 +42,7 @@ class TS_Woo_Active {
 			add_action( 'admin_init', array( &$this, 'ts_check_if_woocommerce_active' ) );
 		}
 	}
+
 
 	/**
 	 * Checks if the WooCommerce plugin is active or not. If it is not active then it will display a notice.
