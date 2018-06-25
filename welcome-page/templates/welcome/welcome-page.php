@@ -21,23 +21,23 @@
         </p>
     </div>
     
-    <div class="orddd-badge"><img src="<?php echo $badge_url; ?>" style="width:150px;"/></div>
+    <div class="ts-badge"><img src="<?php echo $badge_url; ?>" style="width:150px;"/></div>
     
     <p>&nbsp;</p>
     
     <div class="feature-section clearfix introduction">
-        <h3><?php esc_html_e( "Get Started with " . $plugin_name, 'order-delivery-date' ); ?></h3>
+        <h3><?php esc_html_e( "Get Started with " . $plugin_name, $plugin_context ); ?></h3>
         <div class="video feature-section-item" style="float:left;padding-right:10px;">
-            <img src="<?php echo $plugin_url . '/images/order-delivery-date-pro.png' ?>"
-                 alt="<?php esc_attr_e( $plugin_name, 'order-delivery-date' ); ?>" style="width:600px;">
+            <img src="<?php echo $ts_dir_image_path . 'order-delivery-date-pro.png' ?>"
+                 alt="<?php esc_attr_e( $plugin_name, $plugin_context ); ?>" style="width:600px;">
         </div>
 
         <div class="content feature-section-item last-feature">
-            <h3><?php esc_html_e( 'Enable Delivery Date Capture', 'order-delivery-date' ); ?></h3>
+            <h3><?php esc_html_e( 'Enable Delivery Date Capture', $plugin_context ); ?></h3>
 
-            <p><?php esc_html_e( 'To start allowing customers to select their preferred delivery date, simply activate the Enable Delivery Date checkbox from under Order Delivery Date menu.', 'order-delivery-date' ); ?></p>
+            <p><?php esc_html_e( 'To start allowing customers to select their preferred delivery date, simply activate the Enable Delivery Date checkbox from under Order Delivery Date menu.', $plugin_context ); ?></p>
             <a href="admin.php?page=order_delivery_date" target="_blank" class="button-secondary">
-                <?php esc_html_e( 'Click Here to go to Order Delivery Date Settings page', 'order-delivery-date' ); ?>
+                <?php esc_html_e( 'Click Here to go to Order Delivery Date Settings page', $plugin_context ); ?>
                 <span class="dashicons dashicons-external"></span>
             </a>
         </div>
@@ -47,21 +47,21 @@
 
     <div class="content">
 
-        <h3><?php esc_html_e( "Some exciting features of " . $plugin_name, 'order-delivery-date' ); ?></h3>
+        <h3><?php esc_html_e( "Some exciting features of " . $plugin_name, $plugin_context ); ?></h3>
 
         <div class="feature-section clearfix introduction">
             <div class="video feature-section-item" style="float:left;padding-right:10px;">
-                <img src="<?php echo $plugin_url . '/images/custom-delivery-settings.png'?>"
-                     alt="<?php esc_attr_e( $plugin_name, 'order-delivery-date' ); ?>" style="width:500px;">
+                <img src="<?php echo $ts_dir_image_path . 'custom-delivery-settings.png'?>"
+                     alt="<?php esc_attr_e( $plugin_name, $plugin_context ); ?>" style="width:500px;">
             </div>
 
             <div class="content feature-section-item last-feature">
-                <h3><?php esc_html_e( 'Create Custom Delivery Schedules', 'order-delivery-date' ); ?></h3>
+                <h3><?php esc_html_e( 'Create Custom Delivery Schedules', $plugin_context ); ?></h3>
 
-                <p><?php esc_html_e( 'The ability to set different delivery schedule for different WooCommerce shipping zones, shipping classes and product categories is very useful for the businesses like food packet deliveries, cake shops etc which deals with delivery in different shipping zones.', 'order-delivery-date' ); ?></p>
+                <p><?php esc_html_e( 'The ability to set different delivery schedule for different WooCommerce shipping zones, shipping classes and product categories is very useful for the businesses like food packet deliveries, cake shops etc which deals with delivery in different shipping zones.', $plugin_context ); ?></p>
 
                 <a href="https://www.tychesoftwares.com/custom-delivery-settings/?utm_source=wpaboutpage&utm_medium=link&utm_campaign=OrderDeliveryDatePRoPlugin" target="_blank" class="button-secondary">
-                    <?php esc_html_e( 'Learn More', 'order-delivery-date' ); ?>
+                    <?php esc_html_e( 'Learn More', $plugin_context ); ?>
                     <span class="dashicons dashicons-external"></span>
                 </a>
             </div>
@@ -69,32 +69,32 @@
 
         <div class="feature-section clearfix">
             <div class="content feature-section-item">
-                <h3><?php esc_html_e( 'Delivery Time along with Delivery Date', 'order-delivery-date' ); ?></h3>
-                <p><?php esc_html_e( "The provision for allowing Delivery Time along with the Delivery Date on the checkout page makes the delivery more accurate. Delivering products on customer's preferred date and time improves your customers service.", 'order-delivery-date' ); ?></p>
+                <h3><?php esc_html_e( 'Delivery Time along with Delivery Date', $plugin_context ); ?></h3>
+                <p><?php esc_html_e( "The provision for allowing Delivery Time along with the Delivery Date on the checkout page makes the delivery more accurate. Delivering products on customer's preferred date and time improves your customers service.", $plugin_context ); ?></p>
                 <a href="https://www.tychesoftwares.com/setup-delivery-date-time/?utm_source=wpaboutpage&utm_medium=link&utm_campaign=OrderDeliveryDateProPlugin" target="_blank" class="button-secondary">
                     <?php esc_html_e( 'Learn More', 'order-delivery-date-lite' ); ?>
                     <span class="dashicons dashicons-external"></span>
                 </a>
             </div>
             <div class="content feature-section-item last-feature">
-                <img src="<?php echo $plugin_url . 'images/time-slots.png'; ?>" 
-                     alt="<?php esc_attr_e( $plugin_name, 'order-delivery-date' ); ?>" style="width:450px;">
+                <img src="<?php echo $ts_dir_image_path . 'time-slots.png'; ?>" 
+                     alt="<?php esc_attr_e( $plugin_name, $plugin_context ); ?>" style="width:450px;">
             </div>
         </div>
 
 
         <div class="feature-section clearfix introduction">
             <div class="video feature-section-item" style="float:left;padding-right:10px;">
-                <img src="<?php echo $plugin_url . 'images/google-calendar-sync.png'; ?>" alt="<?php esc_attr_e( $plugin_name, 'order-delivery-date' ); ?>" style="width:450px;">
+                <img src="<?php echo $ts_dir_image_path . 'google-calendar-sync.png'; ?>" alt="<?php esc_attr_e( $plugin_name, $plugin_context ); ?>" style="width:450px;">
             </div>
 
             <div class="content feature-section-item last-feature">
                 <h3><?php esc_html_e( 'Synchronise Deliveries with Google Calendar', 'order-delivery-date-lite' ); ?></h3>
 
-                <p><?php esc_html_e( 'The ability to synchronise deliveries to the google calendar helps administrator or store manager to manage all the things in a single calendar.', 'order-delivery-date' ); ?></p>
+                <p><?php esc_html_e( 'The ability to synchronise deliveries to the google calendar helps administrator or store manager to manage all the things in a single calendar.', $plugin_context ); ?></p>
 
                 <a href="https://www.tychesoftwares.com/how-to-synchornize-delivery-dates-with-your-google-calendar/?utm_source=wpaboutpage&utm_medium=link&utm_campaign=OrderDeliveryDateProPlugin" target="_blank" class="button-secondary">
-                    <?php esc_html_e( 'Learn More', 'order-delivery-date' ); ?>
+                    <?php esc_html_e( 'Learn More', $plugin_context ); ?>
                     <span class="dashicons dashicons-external"></span>
                 </a>
             </div>
@@ -114,17 +114,17 @@
             </div>
 
             <div class="content feature-section-item last-feature">
-                <img src="<?php echo $plugin_url . 'images/weekday-settings.png'; ?>" alt="<?php esc_attr_e( 'Order Delivery Date for WooCommerce Lite', 'order-delivery-date' ); ?>" style="width:450px;">
+                <img src="<?php echo $ts_dir_image_path . 'weekday-settings.png'; ?>" alt="<?php esc_attr_e( 'Order Delivery Date for WooCommerce Lite', $plugin_context ); ?>" style="width:450px;">
             </div>
         </div>
 
         <a href="https://www.tychesoftwares.com/woocommerce-order-delivery-date-plugin-documentation/?utm_source=wpaboutpage&utm_medium=link&utm_campaign=OrderDeliveryDateProPlugin" target="_blank" class="button-secondary">
-            <?php esc_html_e( 'Documentation', 'order-delivery-date' ); ?>
+            <?php esc_html_e( 'Documentation', $plugin_context ); ?>
             <span class="dashicons dashicons-external"></span>
         </a>
 
         <a href="https://www.tychesoftwares.com/woocommerce-order-delivery-date-delivery-time-plugin-changelog/?utm_source=wpaboutpage&utm_medium=link&utm_campaign=OrderDeliveryDateProPlugin" target="_blank" class="button-secondary">
-            <?php esc_html_e( 'Changelog', 'order-delivery-date' ); ?>
+            <?php esc_html_e( 'Changelog', $plugin_context ); ?>
             <span class="dashicons dashicons-external"></span>
         </a>
     </div>
@@ -143,13 +143,13 @@
                     <li><a href="https://www.tychesoftwares.com/store/premium-plugins/deposits-for-woocommerce/?utm_source=wpaboutpage&utm_medium=link&utm_campaign=OrderDeliveryDateProPlugin" target="_blank">Deposits for WooCommerce</a></li>
                 </ul>
                 </li>
-                <li><a href="https://tychesoftwares.com/about/?utm_source=wpaboutpage&utm_medium=link&utm_campaign=OrderDeliveryDateProPlugin" target="_blank"><?php esc_html_e( 'Meet the team', 'order-delivery-date' ); ?></a></li>
+                <li><a href="https://tychesoftwares.com/about/?utm_source=wpaboutpage&utm_medium=link&utm_campaign=OrderDeliveryDateProPlugin" target="_blank"><?php esc_html_e( 'Meet the team', $plugin_context ); ?></a></li>
             </ul>
 
         </div>
         
         <div class="content feature-section-item">
-            <h3><?php esc_html_e( 'Current Offers', 'order-delivery-date' ); ?></h3>
+            <h3><?php esc_html_e( 'Current Offers', $plugin_context ); ?></h3>
             <p>We do not have any offers going on right now</p>
         </div>
 
