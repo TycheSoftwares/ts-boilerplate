@@ -3,15 +3,21 @@ Add some notices of Pro plugins in the lite plugins.
 To add this feature to the plugin, you can follow the below steps:
 
 1. Copy the ts-pro-notices.php file into your plugin folder.
+2. Rename the class name with the plugin prefix.
 
-2. Include the file once when on the admin page. This can be done with is_admin() function. 
+3. Include the file once when on the admin page. This can be done with is_admin() function.
 
-3. You need to pass the 3 parameters to the default constructor of the ts_pro_notices class. You need to change the value of the variable as per the respective plugin.
+4. You need to pass the 6 parameters to the default constructor of the ts_pro_notices class.
+Here, I have taken the example of the Abdnoend cart lite plugin. 
+You need to change the value of the variable as per the respective plugin.
 
-    $wcap_plugin_prefix      = 'wcap';
-    $wcap_plugin_name        = 'Abandoned Cart Pro for WooCommerce';
-    $wcap_lite_plugin_prefix = 'wcal';
+    
+    $wcal_plugin_name          = 'Abandoned Cart Lite for WooCommerce';
+    $wcal_plugin_prefix        = 'wcal';
+    $wcal_lite_plugin_prefix   = 'wcal';
+    $wcal_file_name            = 'woocommerce-abandoned-cart/woocommerce-ac.php';
+    $wcal_pro_file_name        = 'woocommerce-abandon-cart-pro/woocommerce-ac.php';
+    $ts_pro_notices = self::wcal_get_notice_text ();
+    new Wcal_ts_pro_notices( $wcal_plugin_name, $wcal_lite_plugin_prefix, $wcal_plugin_prefix, $ts_pro_notices, $wcal_file_name, $wcal_pro_file_name );
 
-    new ts_pro_notices( $wcap_plugin_name, $wcap_lite_plugin_prefix, $wcap_plugin_prefix );
-
-4. Then in the main file you need to update text for the notices. Also, you need to check if any condition needed with any specific plguin.
+5. Here, "wcal_get_notice_text()" function will have all the notices text. You can change the notice text from this function only.
