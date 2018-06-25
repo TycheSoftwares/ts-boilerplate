@@ -23,15 +23,46 @@ class TS_deactivate {
 	* @access public 
 	*/
 
-	public static $plugin_name = 'Order Delivery Date Pro for WooCommerce';
+	public static $plugin_name = '';
+
+	/**
+	 * @var string Plugin file name
+	 * @access public
+	 */
+	public static $ts_plugin_file_name = '';
+
+	/**
+	 * @var string Plugin URL
+	 * @access public
+	 */
+	public static $ts_plugin_url = '';
 
 	/**
 	 * Initialization of hooks where we prepare the functionality to ask use for survey
 	 */
-	public static function init() {
+	public static function init( $ts_plugin_file_name = '', $ts_plugin_name = '' ) {
+		self::$ts_plugin_file_name = $ts_plugin_file_name;
+		self::$plugin_name         = $ts_plugin_name;
+		self::$ts_plugin_url       = untrailingslashit( plugin_dir_path ( __FILE__ ) );
+		
 		self::ts_load_all_str();
-		add_action( 'admin_footer', array( __CLASS__, 'maybe_load_deactivate_options' ) );
+		add_action( 'admin_footer', 					  array( __CLASS__, 'maybe_load_deactivate_options' ) );
 		add_action( 'wp_ajax_ts_submit_uninstall_reason', array( __CLASS__, '_submit_uninstall_reason_action' ) );
+
+		add_filter( 'plugin_action_links_' . self::$ts_plugin_file_name, array( __CLASS__, 'ts_plugin_settings_link' ) );
+	}
+
+	/**
+	 * Settings link on Plugins page
+	 * 
+	 * @access public
+	 * @param array $links 
+	 * @return array
+	 */
+	public static function ts_plugin_settings_link( $links ) {
+		
+		$links['deactivate'] .= '<i class="ts-slug" data-slug="' . self::$ts_plugin_file_name  . '"></i>';
+		return $links;
 	}
 
 	/**
@@ -57,14 +88,6 @@ class TS_deactivate {
 			"reason-dont-like-to-share-my-information" => __( "I don't like to share my information with you", "ts-deactivation-survey" ),
 			"reason-other"                             => _x( "Other", "the text of the 'other' reason for deactivating the plugin that is shown in the modal box.", "ts-deactivation-survey" ),
 		);
-
-		self::$ts_plugin_specific_questions = array(
-			"reason-custom-settings-not-working"       => __( "Custom Delivery Settings are not working", "ts-deactivation-survey" ),
-			"reason-minimum-delivery-time-not-working" => __( "Minimum Delivery Time (in hours) is not working as expected", "ts-deactivation-survey" ),
-			"reason-plugin-not-compatible"             => __( "The plugin is not compatible with another plugin", "ts-deactivation-survey" ),
-			"placeholder-non-compatible-plugin"		   => __( "Which Plugin?", "ts-deactivation-survey" ),
-			"reason-shipping-days-feature"             => __( "Shipping Days feature is not working", "ts-deactivation-survey" )
-		);	
 	}
 
 	/**
@@ -77,7 +100,7 @@ class TS_deactivate {
 		if ( $pagenow == "plugins.php" ) {
 			global $VARS;
 			$VARS = array( 'slug' => "asvbsd", 'reasons' => self::deactivate_options() );
-			include_once dirname( dirname( __FILE__ ) ) . "/order-delivery-date/includes/views/ts-deactivate-modal.php";
+			include_once self::$ts_plugin_url . "/template/ts-deactivate-modal.php";
 		}
 	}
 
@@ -87,6 +110,10 @@ class TS_deactivate {
 	 * @since 1.0.0
 	 */
 	public static function deactivate_options() {
+
+		self::$ts_plugin_specific_questions = apply_filters( 'ts_deativate_plugin_questions', array () );
+
+
 		$reason_found_better_plugin = array(
 			'id'                => 2,
 			'text'              => self::$ts_generic_questions[ 'reason-found-a-better-plugin' ],
@@ -108,12 +135,7 @@ class TS_deactivate {
 			'input_placeholder' => self::$ts_generic_questions[ 'placeholder-feature' ]
 		); 
 
-		$reason_plugin_not_compatible = array(
-			'id'                => 7,
-			'text'              => self::$ts_plugin_specific_questions[ 'reason-plugin-not-compatible' ],
-			'input_type'        => 'textfield',
-			'input_placeholder' => self::$ts_plugin_specific_questions[ 'placeholder-non-compatible-plugin' ]
-		); 
+		$reason_plugin_not_compatible =  isset ( self::$ts_plugin_specific_questions[ 3 ] ) ? self::$ts_plugin_specific_questions[ 3 ] : '' ; 
 
 		$reason_other = array(
 			'id'                => 10,
@@ -131,24 +153,9 @@ class TS_deactivate {
 			),
 			$reason_found_better_plugin,
 			$reason_not_working,
-			array(
-				'id'                => 4,
-				'text'              => self::$ts_plugin_specific_questions[ 'reason-custom-settings-not-working' ],
-				'input_type'        => '',
-				'input_placeholder' => ''
-			),
-			array(
-				'id'                => 5,
-				'text'              => self::$ts_plugin_specific_questions[ 'reason-minimum-delivery-time-not-working' ],
-				'input_type'        => '',
-				'input_placeholder' => ''
-			),
-			array(
-				'id'                => 6,
-				'text'              => self::$ts_plugin_specific_questions[ 'reason-shipping-days-feature' ],
-				'input_type'        => '',
-				'input_placeholder' => ''
-			),
+			isset ( self::$ts_plugin_specific_questions[ 0 ] ) ? self::$ts_plugin_specific_questions[ 0 ] : '',
+			isset ( self::$ts_plugin_specific_questions[ 1 ] ) ? self::$ts_plugin_specific_questions[ 1 ] : '',
+			isset ( self::$ts_plugin_specific_questions[ 2 ] ) ? self::$ts_plugin_specific_questions[ 2 ] : '',
 			$reason_plugin_not_compatible,
 			$reason_great_but_need_specific_feature,
 			array(
@@ -220,6 +227,3 @@ class TS_deactivate {
 	}
 
 }
-
-//intialization
-TS_deactivate::init();
