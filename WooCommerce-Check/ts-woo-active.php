@@ -43,6 +43,7 @@ class TS_Woo_Active {
 		}
 	}
 
+
 	/**
 	 * Checks if the WooCommerce plugin is active or not. If it is not active then it will display a notice.
 	 */
