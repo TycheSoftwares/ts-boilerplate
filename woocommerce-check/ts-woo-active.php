@@ -4,12 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * TS_Woo_Active Class
+ * Wcal_TS_Woo_Active Class
  *
- * @class TS_Woo_Active
+ * @class Wcal_TS_Woo_Active
  */
 
-class TS_Woo_Active {
+class Wcal_TS_Woo_Active {
 
 	/**
 	 * @var string The name of the plugin
@@ -42,7 +42,6 @@ class TS_Woo_Active {
 			add_action( 'admin_init', array( &$this, 'ts_check_if_woocommerce_active' ) );
 		}
 	}
-
 
 	/**
 	 * Checks if the WooCommerce plugin is active or not. If it is not active then it will display a notice.
