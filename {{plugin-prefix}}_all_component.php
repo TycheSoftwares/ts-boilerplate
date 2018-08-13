@@ -68,8 +68,11 @@ if ( ! class_exists( 'Wcap_All_Component' ) ) {
                 $wcap_deativate = new Wcap_TS_deactivate;
                 $wcap_deativate->init ( $wcap_file_name, $wcap_plugin_name );
 
-                new Wcap_TS_Welcome ( $wcap_plugin_name, $wcap_plugin_prefix, $wcap_locale, $wcap_plugin_folder_name, $wcap_plugin_dir_name, $wcap_get_previous_version );
+                $user = wp_get_current_user();
                 
+                if ( in_array( 'administrator', (array) $user->roles ) ) {
+                    new Wcap_TS_Welcome ( $wcap_plugin_name, $wcap_plugin_prefix, $wcap_locale, $wcap_plugin_folder_name, $wcap_plugin_dir_name, $wcap_get_previous_version );
+                }
                 $ts_pro_faq = self::wcap_get_faq ();
 				new Wcap_TS_Faq_Support( $wcap_plugin_name, $wcap_plugin_prefix, $wcap_plugins_page, $wcap_locale, $wcap_plugin_folder_name, $wcap_plugin_slug, $ts_pro_faq );
 
