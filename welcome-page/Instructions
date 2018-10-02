@@ -8,7 +8,7 @@ To add this feature to the plugin, you can follow the below steps:
 
 3. Include the file once when on the admin page. This can be done with is_admin() function. 
 
-4. You need to pass the 6 parameters to the default constructor of the TS_Welcome class. You need to change the value of the variable value as per the respective plugin.
+4. You need to pass the 8 parameters to the default constructor of the TS_Welcome class. You need to change the value of the variable value as per the respective plugin.
 
     $wcap_plugin_prefix      = 'wcap';
     $wcap_plugin_name        = 'Abandoned Cart Pro for WooCommerce';
@@ -18,13 +18,16 @@ To add this feature to the plugin, you can follow the below steps:
     $wcap_plugin_folder_name = 'woocommerce-abandon-cart-pro/';
     $wcap_plugin_dir_name    = WCAP_PLUGIN_PATH . '/woocommerce-ac.php' ;
     $wcap_get_previous_version = get_option( 'woocommerce_ac_db_version' );
+	$wcap_license_key_name     = 'edd_sample_license_key_ac_woo';
+	$wcap_edd_license_option   = 'edd_sample_license_status_ac_woo';
 
-    new TS_Welcome ( $wcap_plugin_name, $wcap_plugin_prefix, $wcap_locale, $wcap_plugin_folder_name, $wcap_plugin_dir_name, $wcap_get_previous_version );
+    new TS_Welcome ( $wcap_plugin_name, $wcap_plugin_prefix, $wcap_locale, $wcap_plugin_folder_name, $wcap_plugin_dir_name, $wcap_get_previous_version, $wcap_license_key_name, $wcap_edd_license_option );
 
 5. Add the below code in the uninstall.php file of the plugin.
 
 delete_option( '{{plugin-prefix}}_pro_welcome_page_shown' );
 delete_option( '{{plugin-prefix}}_pro_welcome_page_shown_time' );
+delete_option( '{{plugin-prefix}}_installation_wizard_license_key' );
 
 6. You need to update the Template as per your update of the plguin. You just need to update the template content.
 
@@ -35,3 +38,12 @@ Note:
 3. Please change the Utm parameters
 
 You just need to append the image name. 
+
+7. License Activation feature:
+
+1. 2 new templates license-activation.php and license-activation-failed.php have been added to the templates folder.
+2. Copy those to the templates folder in the component/welcome-page/templates/welcome folder of the plugin.
+3. Copy the changes done in the ts-welcome.php file. 
+4. Change the license activation function being called at line number 273 and 298 in about_screen() to your respective plugin's license activation function.
+5. Modify the new class instance for TS_Welcome to include the new paramaters mentioned in point 4 above.
+6. Modify the uninstall.php to include the deletion of option records mentioned in point 6 above.

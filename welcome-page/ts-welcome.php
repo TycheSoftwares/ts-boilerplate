@@ -80,17 +80,29 @@ class TS_Welcome {
 	 */
 	public static $plugin_file_path = '';
 	/**
+	 * @var string Plugin License Key Name in Options table
+	 * @access public
+	 */
+	public static $plugin_license_key = '';
+	/**
+	 * @var string Plugin License Status name in Options table
+	 * @access public
+	 */
+	public static $plugin_license_status = '';
+	/**
 	 * Get things started
 	 *
 	 * @since 7.7
 	 */
-	public function __construct( $ts_plugin_name = '', $ts_plugin_prefix = '', $ts_plugin_context = '', $ts_plugin_folder_name = '', $ts_plugin_dir_name = '' , $ts_previous_version = '' ) {
-		self::$plugin_name    	= $ts_plugin_name;
-		self::$plugin_prefix  	= $ts_plugin_prefix;
-		self::$plugin_context 	= $ts_plugin_context;
-		self::$plugin_folder    = $ts_plugin_folder_name;
-		self::$plugin_file_path = $ts_plugin_dir_name;
-
+	public function __construct( $ts_plugin_name = '', $ts_plugin_prefix = '', $ts_plugin_context = '', $ts_plugin_folder_name = '', $ts_plugin_dir_name = '' , $ts_previous_version = '', $ts_license_key_name = '', $ts_license_status_name = '' ) {
+		self::$plugin_name    	      = $ts_plugin_name;
+		self::$plugin_prefix  	      = $ts_plugin_prefix;
+		self::$plugin_context 	      = $ts_plugin_context;
+		self::$plugin_folder          = $ts_plugin_folder_name;
+		self::$plugin_file_path       = $ts_plugin_dir_name;
+		self::$plugin_license_key     = $ts_license_key_name;
+		self::$plugin_license_status  = $ts_license_status_name;
+		
 		add_action( 'admin_init', array( &$this, 'ts_add_plugin_active_check' ),1 );
 
 		register_deactivation_hook( self::$plugin_file_path, array( &$this, 'ts_delete_plugin_from_active_check' ) );
@@ -230,17 +242,105 @@ class TS_Welcome {
 		$ts_file_path    = plugin_dir_url( __FILE__ ) ; 
 		// Badge for welcome page
 		$badge_url = $ts_file_path . '/assets/images/icon-256x256.png';		
+
+		$license_key_name = self::$plugin_license_key;
+		$license_status_name = self::$plugin_license_status;
+		
+		$existing_license = get_option( $license_key_name ) ? get_option( $license_key_name ) : '';
+		$license_status = get_option( $license_status_name ) ? get_option( $license_status_name ) : '';
+		
+		$plugin_name = self::$plugin_name;
+		$plugin_context = self::$plugin_context;
+		$plugin_prefix = self::$plugin_prefix;
+		
+		$site_name = "<a href='https://www.tychesoftwares.com/' target='_blank'>Tyche Softwares</a>";
+		$purchase_history = "<a href='https://www.tychesoftwares.com/checkout/purchase-history' target='_blank'>Account->Purchase History</a>";
+		
+		$display_failed = false;
 		
 		ob_start();
-        wc_get_template( 'welcome/welcome-page.php', array(
-        	'plugin_name'        => self::$plugin_name,
-        	'plugin_url'         => self::$plugin_url, 
-            'display_version'    => $display_version,
-			'badge_url'          => $badge_url,
-			'ts_dir_image_path'  => $ts_file_path . '/assets/images/',
-			'plugin_context'     => self::$plugin_context,
-            'get_welcome_header' => $this->get_welcome_header()
-        ),  self::$plugin_folder, self::$template_base );
+		
+		$accept = false;
+		
+		if( isset( $_POST[ $plugin_prefix . '_license_display' ] ) &&  $_POST[ $plugin_prefix . '_license_display' ] == '2' ) { // the license activation failed the first time round
+		
+		    $insert = false;
+		    $license_key = '';
+		    // check if a license key is entered
+		    if( isset( $_POST[ 'license_key' ] ) && '' != $_POST[ 'license_key' ] ) {
+		        $license_key = $_POST[ 'license_key' ];
+		        update_option( $license_key_name, $license_key );
+		        Wcap_EDD::wcap_edd_ac_activate_license(); // call the respective plugin's license activation function
+		    }
+		
+		    $license_details = array( 'license_key' => $license_key );
+		
+		    if( isset( $_POST[ $plugin_prefix . '_accept_terms' ] ) && '1' == $_POST[ $plugin_prefix . '_accept_terms' ] ) {
+		        $license_details[ $plugin_prefix . '_accept_terms' ] = '1';
+		        $accept = true;
+		        $insert = true;
+		    }
+		
+		    if( get_option( $license_status_name ) == 'valid' ) {
+		        $license_details[ 'is_valid' ] = true;
+		        $license_status = get_option( $license_status_name );
+		        $insert = true;
+		    }
+		
+		    // if accept terms is enabled or the license was valid, save and move on to the welcome page
+		    if( $insert ) {
+		        add_option( $plugin_prefix . '_installation_wizard_license_key', json_encode( $license_details ) );
+		    }
+		
+		} else if( isset( $_POST[ $plugin_prefix . '_license_display' ] ) && $_POST[ $plugin_prefix . '_license_display' ] == '1' ) { // only for first time
+		
+		    update_option( 'edd_sample_license_key_ac_woo', $_POST[ 'license_key' ] );
+		    Wcap_EDD::wcap_edd_ac_activate_license(); // call the respective plugin's license activation function
+		    
+		    if( get_option( $license_status_name ) == 'valid' ) { // license key validation was successful
+		        $license_status = get_option( $license_status_name );
+		        add_option( $plugin_prefix . '_installation_wizard_license_key', json_encode( array( 'license_key' => $_POST[ 'license_key' ], 'is_valid' => true ) ) );
+		    } else { // license key validation failed
+		        $display_failed = true;
+		
+		        // load scripts on the page
+		        wp_enqueue_style( 'wcap-font-awesome', WCAP_PLUGIN_URL . '/assets/css/admin/font-awesome.css' );
+		        wp_enqueue_style( 'wcap-font-awesome-min', WCAP_PLUGIN_URL . '/assets/css/admin/font-awesome.min.css' );
+		
+		        // display the template that allows them to proceed without the license key
+		        wc_get_template( 'welcome/license-activation-failed.php', array(
+		        'plugin_name'         => $plugin_name,
+		        'plugin_context'      => $plugin_context,
+		        'get_welcome_header'  => $this->get_welcome_header(),
+		        'site_name'           => $site_name,
+		        'purchase_history'    => $purchase_history,
+		        'plugin_prefix'       => $plugin_prefix,
+		        ), self::$plugin_folder, self::$template_base );
+		    }
+		}
+		
+		if( isset( $license_status ) && $license_status != 'valid' && $accept == false && ! $display_failed ) {
+		    wc_get_template( 'welcome/license-activation.php', array(
+		    'plugin_name'         => $plugin_name,
+		    'plugin_context'      => $plugin_context,
+		    'get_welcome_header'  => $this->get_welcome_header(),
+		    'site_name'           => $site_name,
+		    'purchase_history'    => $purchase_history,
+		    'plugin_prefix'       => $plugin_prefix,
+		    ), self::$plugin_folder, self::$template_base );
+		}else if( ! $display_failed ) {
+		
+            wc_get_template( 'welcome/welcome-page.php', array(
+            	'plugin_name'        => self::$plugin_name,
+            	'plugin_url'         => self::$plugin_url, 
+                'display_version'    => $display_version,
+    			'badge_url'          => $badge_url,
+    			'ts_dir_image_path'  => $ts_file_path . '/assets/images/',
+    			'plugin_context'     => self::$plugin_context,
+                'get_welcome_header' => $this->get_welcome_header()
+            ),  self::$plugin_folder, self::$template_base );
+		}
+		
         echo ob_get_clean();
 
 		add_option( self::$plugin_prefix . '_pro_welcome_page_shown', 'yes' );
