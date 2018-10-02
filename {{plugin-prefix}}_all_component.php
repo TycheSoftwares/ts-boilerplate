@@ -58,6 +58,8 @@ if ( ! class_exists( 'Wcap_All_Component' ) ) {
                 $wcap_register_setting     = 'woocommerce_ac_settings';
                 $wcap_pro_file_name        = '';
 
+                $wcap_license_key_name     = 'edd_sample_license_key_ac_woo';
+                
                 new wcap_active_license_notice ( $wcap_plugin_name, $wcap_edd_license_option, $wcap_license_path, $wcap_locale );
 				
 				new Wcap_TS_Woo_Active ( $wcap_plugin_name, $wcap_file_name, $wcap_locale );
@@ -72,7 +74,7 @@ if ( ! class_exists( 'Wcap_All_Component' ) ) {
                 $user = wp_get_current_user();
                 
                 if ( in_array( 'administrator', (array) $user->roles ) ) {
-                    new Wcap_TS_Welcome ( $wcap_plugin_name, $wcap_plugin_prefix, $wcap_locale, $wcap_plugin_folder_name, $wcap_plugin_dir_name, $wcap_get_previous_version );
+                    new Wcap_TS_Welcome ( $wcap_plugin_name, $wcap_plugin_prefix, $wcap_locale, $wcap_plugin_folder_name, $wcap_plugin_dir_name, $wcap_get_previous_version, $wcap_license_key_name, $wcap_edd_license_option );
                 }
                 $ts_pro_faq = self::wcap_get_faq ();
                 new Wcap_TS_Faq_Support( $wcap_plugin_name, $wcap_plugin_prefix, $wcap_plugins_page, $wcap_locale, $wcap_plugin_folder_name, $wcap_plugin_slug, $ts_pro_faq );
